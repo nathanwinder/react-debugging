@@ -1,0 +1,13 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "jsRules": {},
+  "rules": {
+    "trailing-comma": {
+      "options": {
+        "esSpecCompliant": true
+      }
+    }
+  },
+  "rulesDirectory": []
+}

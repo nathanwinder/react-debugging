@@ -1,0 +1,20 @@
+{
+  "name": "@winderful/react-debugging",
+  "version": "0.1.0",
+  "description": "A TypeScript React library used by componets that support debugging.",
+  "main": "lib/index.js",
+  "author": "Nathan Winder",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "yarn tsc --build",
+    "docs": "yarn typedoc"
+  },
+  "devDependencies": {
+    "tsc": "^1.20150623.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.3",
+    "typedoc": "^0.13.0",
+    "@types/react": "^16.4.18"
+  }
+}
