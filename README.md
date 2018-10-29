@@ -1,6 +1,7 @@
 # @winderful/react-debugging
 
-[![Build Status](https://travis-ci.org/nathanwinder/react-debugging.svg?branch=master)](https://travis-ci.org/nathanwinder/react-debugging)
+[![Build Status](https://travis-ci.com/nathanwinder/react-debugging.svg?branch=master)](https://travis-ci.com/nathanwinder/react-debugging)
+[![Coverage Status](https://coveralls.io/repos/github/nathanwinder/react-debugging/badge.svg?branch=master)](https://coveralls.io/github/nathanwinder/react-debugging?branch=master)
 
 Simple TypeScript Context and HOC used for debugging. There are lots of great tools for debugging React applicaitons but when it comes to debugging layouts the classic "debug border color" is hard to beat. This suite makes integrating "debug" capabilities into your components a breeze.
 
