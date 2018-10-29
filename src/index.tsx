@@ -56,57 +56,65 @@ export function withDebugProps<
   Component: React.ComponentType<P>,
   debugContext: DebugContext<O>
 ): React.ComponentType<WithDebugProps<P, O>> {
-  if (!debugContext.enabled) {
-    return Component;
-  }
-
   const Ctx = debugContext;
   class WithDebug extends React.Component<WithDebugProps<P, O>> {
     public render() {
-      if (this.props.debug == null) {
+      if (!debugContext.enabled) {
         return (
-          <Ctx.Consumer>
-            {(d) => {
-              let debugChildren: boolean | undefined;
-              if (this.props.debugOptions) {
-                debugChildren = this.props.debugOptions.debugChildren;
-              } else if (d.options) {
-                debugChildren = d.options.debugChildren;
-              }
+          <Component
+            {...this.props}
+            debug={false}
+            debugOptions={{
+              ...(this.props.debugOptions as any),
+              debugChildren: false
+            }}
+          />
+        );
+      }
+      return (
+        <Ctx.Consumer>
+          {(d) => {
+            let debugChildren: boolean | undefined;
 
-              if (
-                debugChildren !== undefined &&
-                debugChildren !== d.debugging
-              ) {
-                return (
-                  <Ctx.Provider
-                    value={{
-                      debugging: debugChildren,
-                      options: this.props.debugOptions || d.options
-                    }}
-                  >
-                    <Component
-                      {...this.props}
-                      debug={d.debugging}
-                      debugOptions={this.props.debugOptions || d.options}
-                    />
-                  </Ctx.Provider>
-                );
-              } else {
-                return (
+            const contextDebugging = d.debugging;
+            const contextDebugChildren =
+              d.debugging && d.options && d.options.debugChildren === true;
+
+            if (this.props.debugOptions) {
+              debugChildren = this.props.debugOptions.debugChildren;
+            } else if (d.options) {
+              debugChildren = contextDebugChildren;
+            }
+
+            const debug =
+              this.props.debug !== undefined ? this.props.debug : d.debugging;
+            if (debugChildren !== undefined && debugChildren !== d.debugging) {
+              return (
+                <Ctx.Provider
+                  value={{
+                    debugging: debugChildren,
+                    options: this.props.debugOptions || d.options
+                  }}
+                >
                   <Component
                     {...this.props}
-                    debug={d.debugging}
+                    debug={debug}
                     debugOptions={this.props.debugOptions || d.options}
                   />
-                );
-              }
-            }}
-          </Ctx.Consumer>
-        );
-      } else {
-        return <Component {...this.props} />;
-      }
+                </Ctx.Provider>
+              );
+            } else {
+              return (
+                <Component
+                  {...this.props}
+                  debug={debug}
+                  debugOptions={this.props.debugOptions || d.options}
+                />
+              );
+            }
+          }}
+        </Ctx.Consumer>
+      );
     }
   }
   (WithDebug as any).displayName = `${Component.displayName ||
