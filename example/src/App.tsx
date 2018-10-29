@@ -4,11 +4,7 @@ import "./App.css";
 
 import logo from "./logo.svg";
 
-interface IOptions {
-  color: string;
-}
-
-const DebugContext = createDebugContext<IOptions>(true, {
+const DebugContext = createDebugContext(true, {
   color: "blue"
 });
 
@@ -16,7 +12,7 @@ const Box = (props: {
   children?: any;
   size?: number;
   debug?: boolean;
-  debugOptions?: IOptions;
+  debugOptions?: { color: string };
 }) => (
   <div
     style={{
@@ -50,10 +46,10 @@ class App extends React.Component {
           <p className="App-intro">
             To get started, edit <code>src/App.tsx</code> and save to reload.
           </p>
-          <DBox size={300} debug={false}>
+          <DBox size={300}>
             <DBox size={250}>
-              <DBox size={200} debug={true}>
-                <DBox size={150} />
+              <DBox size={200} debug={false}>
+                <DBox size={150} debugOptions={{ color: "blue" }} />
               </DBox>
             </DBox>
           </DBox>
