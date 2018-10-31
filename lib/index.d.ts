@@ -1,36 +1,18 @@
 import * as React from "react";
-export declare type DebugContext<O extends IDebugOptions> = React.Context<{
-    debugging: boolean;
-    options?: O;
-}> & {
-    enabled: boolean;
+export declare type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export declare type DebugContextValue<O> = O & {
+    readonly debug: boolean;
 };
-export declare function createDebugContext<D, O = D & IDebugOptions>(enabled: boolean, options?: D): DebugContext<O>;
-export interface IDebugContextValue {
-    debugging: boolean;
+export declare type DebugContext<O> = React.Context<DebugContextValue<O>>;
+export declare function createDebugContext<O = {}>(debug: boolean, options?: O): DebugContext<O>;
+export declare type ScopedDebugOptions<O, K extends keyof O> = O[K];
+export interface HasDebug<O, K extends keyof O> {
+    debug?: boolean | O[K];
 }
-export declare type IWithDebug<P extends {
-    debug?: boolean;
-}> = React.ComponentType<P>;
-export interface IDebuggable<O> {
-    debug?: boolean;
-    debugOptions?: O;
-}
-export interface IDebugOptions {
-    /**
-     * Enables debugging for child components
-     */
-    debugChildren?: boolean;
-}
-export declare type WithDebugProps<P, O extends IDebugOptions> = P & {
-    /**
-     * Enables debugging for this component
-     */
-    debug?: boolean;
-    /**
-     * Debug options
-     */
-    debugOptions?: O;
+export declare type WithDebugProps<P extends HasDebug<O, K>, O, K extends keyof O> = Omit<P, "debug"> & {
+    debug?: boolean | ScopedDebugOptions<O, K>;
+    debugDescendants?: boolean | ScopedDebugOptions<O, K>;
 };
-export declare function withDebugProps<P extends IDebuggable<O>, O extends IDebugOptions>(Component: React.ComponentType<P>, debugContext: DebugContext<O>): React.ComponentType<WithDebugProps<P, O>>;
+export declare type WithDebug<P extends HasDebug<O, K>, O, K extends keyof O> = React.ComponentType<WithDebugProps<P, O, K>>;
+export declare function withDebugProps<P extends HasDebug<O, K>, O, K extends keyof O>(Component: React.ComponentType<P>, debugContext: DebugContext<O>, key: K): React.ComponentType<WithDebugProps<P, O, K>>;
 //# sourceMappingURL=index.d.ts.map

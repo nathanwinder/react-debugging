@@ -3,16 +3,18 @@
 [![Build Status](https://travis-ci.com/nathanwinder/react-debugging.svg?branch=master)](https://travis-ci.com/nathanwinder/react-debugging)
 [![Coverage Status](https://coveralls.io/repos/github/nathanwinder/react-debugging/badge.svg?branch=master)](https://coveralls.io/github/nathanwinder/react-debugging?branch=master)
 
-Simple TypeScript Context and HOC used for debugging. There are lots of great tools for debugging React applicaitons but when it comes to debugging layouts the classic "debug border color" is hard to beat. This suite makes integrating "debug" capabilities into your components a breeze.
+Simple TypeScript Context and HOC used for debugging. There are lots of great tools for debugging React applications but when it comes to debugging layouts the classic "debug border color" is hard to beat. This suite makes integrating "debug" capabilities into your components a breeze.
 
-## Installation (_NPM Comming Soon_)
+## Installation (_NPM Coming Soon_)
 
-```
-npm install github:nathanwinder/react-debugging
-```
+This library utilizes symantec versioning but is still in alpha development. Its a good idea to "save exact" to prevent any unexpected updates.
 
 ```
-yarn add github:nathanwinder/react-debugging
+npm install github:nathanwinder/react-debugging --save-exact
+```
+
+```
+yarn add github:nathanwinder/react-debugging --exact
 ```
 
 ## Features
@@ -57,19 +59,19 @@ const Box = (props: {
         height: props.size,
     }} />
 
-const DBox = withDebugProps(Box, DebugContext);
+Box.WithDebug = withDebugProps(Box, DebugContext);
 ```
 
 ```html
 const App = ()=> (
     // debugging enabled for this and children
-    <DBox debug={true} debugOptions={{ debugChildren: true }}>
+    <Box.WithDebug debug={true} debugOptions={{ debugChildren: true }}>
         // debugging disabled
-        <DBox debug={false}>
+        <Box.WithDebug debug={false}>
             // debugging enabled
-            <DBox/>
-        </DBox>
-    <DBox>
+            <Box.WithDebug/>
+        </Box.WithDebug>
+    <Box.WithDebug>
 )
 ```
 
@@ -96,13 +98,15 @@ const DebugContext = createDebugContext(true, {
   }
 });
 
-const DBox = withDebugProps(Box, DebugContext, "box");
+const Box.WithDebug = withDebugProps(Box, DebugContext, "box");
 ```
 
 ```html
 const App = ()=> (
-    <DBox debug={true} debugOptions={{ color: "blue" }}>
-        <DBox/>
-    <DBox>
+    <Box.WithDebug debug={true} debugOptions={{ color: "blue" }}>
+        <Box.WithDebug/>
+    <Box.WithDebug>
 )
 ```
+
+- For the best possible performance remove the `.WithDebug` HOC from components when not in use. In the future we'd like to provide a production build process that removes all `.WithDebug` HOCs for you.
