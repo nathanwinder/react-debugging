@@ -75,12 +75,6 @@ const App = ()=> (
 )
 ```
 
-- Turn off all debugging regardless of context/component settings
-
-```typescript
-const DebugContext = createDebugContext(false);
-```
-
 - Custom debug options
 
 ```typescript
@@ -89,7 +83,7 @@ const DebugContext = createDebugContext(true, {
 });
 ```
 
-- (_Coming Soon_) "Namespaced" debug options enable the same context to be used for a variety of components that may need different debug options.
+- "Namespaced" debug options enable the same context to be used for a variety of components that may need different debug options.
 
 ```typescript
 const DebugContext = createDebugContext(true, {

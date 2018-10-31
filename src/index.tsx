@@ -8,7 +8,7 @@ export type DebugContextValue<O> = O & {
 
 export type DebugContext<O> = React.Context<DebugContextValue<O>>;
 
-export function createDebugContext<O = {}>(
+export function createDebugContext<O = never>(
   debug: boolean,
   options?: O
 ): DebugContext<O> {
@@ -39,13 +39,24 @@ export type WithDebug<
   K extends keyof O
 > = React.ComponentType<WithDebugProps<P, O, K>>;
 
+export function withDebugProps<P, O>(
+  Component: React.ComponentType<P>,
+  debugContext: DebugContext<O>
+): React.ComponentType<P & { debugDescendants?: boolean }>;
 export function withDebugProps<P extends HasDebug<O, K>, O, K extends keyof O>(
   Component: React.ComponentType<P>,
   debugContext: DebugContext<O>,
   key: K
-): React.ComponentType<WithDebugProps<P, O, K>> {
+): React.ComponentType<WithDebugProps<P, O, K>>;
+export function withDebugProps<P extends HasDebug<O, K>, O, K extends keyof O>(
+  Component: React.ComponentType<P>,
+  debugContext: DebugContext<O>,
+  key?: K
+): any {
   const Ctx = debugContext;
-  class WithDebugClass extends React.Component<WithDebugProps<P, O, K>> {
+  class WithDebugClass extends React.Component<
+    K extends never ? P : WithDebugProps<P, O, K>
+  > {
     public render() {
       const cleanProps = { ...(this.props as any) };
       delete cleanProps.debug;
@@ -75,6 +86,14 @@ export function withDebugProps<P extends HasDebug<O, K>, O, K extends keyof O>(
             }
 
             if (this.props.debugDescendants != null) {
+              const keyedProps = key
+                ? {
+                    [key]: {
+                      ...(d as any)[key],
+                      ...(this.props.debugDescendants as any)
+                    }
+                  }
+                : undefined;
               return (
                 <Ctx.Provider
                   value={{
@@ -83,10 +102,7 @@ export function withDebugProps<P extends HasDebug<O, K>, O, K extends keyof O>(
                       typeof this.props.debugDescendants === "boolean"
                         ? this.props.debugDescendants
                         : this.props.debugDescendants != null,
-                    [key]: {
-                      ...(d as any)[key],
-                      ...(this.props.debugDescendants as any)
-                    }
+                    ...keyedProps
                   }}
                 >
                   <Component {...cleanProps} debug={debugProps} />
@@ -102,5 +118,5 @@ export function withDebugProps<P extends HasDebug<O, K>, O, K extends keyof O>(
   }
   (WithDebugClass as any).displayName = `${Component.displayName ||
     Component.name}.WithDebug`;
-  return WithDebugClass;
+  return WithDebugClass as any;
 }
