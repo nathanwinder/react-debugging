@@ -1,123 +1,106 @@
 import * as React from "react";
 
-export type DebugContext<O extends IDebugOptions> = React.Context<{
-  debugging: boolean;
-  options?: O;
-}> & {
-  enabled: boolean;
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
+export type DebugContextValue<O> = O & {
+  readonly debug: boolean;
 };
 
-export function createDebugContext<D, O = D & IDebugOptions>(
-  enabled: boolean,
-  options?: D
+export type DebugContext<O> = React.Context<DebugContextValue<O>>;
+
+export function createDebugContext<O = {}>(
+  debug: boolean,
+  options?: O
 ): DebugContext<O> {
-  const value = { debugging: false, options };
+  const value: DebugContextValue<O> = { debug, ...(options as any) };
   const context = React.createContext(value) as DebugContext<O>;
   (context as any).displayName = "DebugContext";
-  context.enabled = enabled;
   return context;
 }
 
-export interface IDebugContextValue {
-  debugging: boolean;
+export type ScopedDebugOptions<O, K extends keyof O> = O[K];
+
+export interface HasDebug<O, K extends keyof O> {
+  debug?: boolean | O[K];
 }
 
-export type IWithDebug<P extends { debug?: boolean }> = React.ComponentType<P>;
-
-export interface IDebuggable<O> {
-  debug?: boolean;
-  debugOptions?: O;
-}
-
-export interface IDebugOptions {
-  /**
-   * Enables debugging for child components
-   */
-  debugChildren?: boolean;
-}
-
-// tslint:disable-next-line:interface-over-type-literal
-export type WithDebugProps<P, O extends IDebugOptions> = P & {
-  /**
-   * Enables debugging for this component
-   */
-  debug?: boolean;
-
-  /**
-   * Debug options
-   */
-  debugOptions?: O;
+export type WithDebugProps<
+  P extends HasDebug<O, K>,
+  O,
+  K extends keyof O
+> = Omit<P, "debug"> & {
+  debug?: boolean | ScopedDebugOptions<O, K>;
+  debugDescendants?: boolean | ScopedDebugOptions<O, K>;
 };
 
-export function withDebugProps<
-  P extends IDebuggable<O>,
-  O extends IDebugOptions
->(
+export type WithDebug<
+  P extends HasDebug<O, K>,
+  O,
+  K extends keyof O
+> = React.ComponentType<WithDebugProps<P, O, K>>;
+
+export function withDebugProps<P extends HasDebug<O, K>, O, K extends keyof O>(
   Component: React.ComponentType<P>,
-  debugContext: DebugContext<O>
-): React.ComponentType<WithDebugProps<P, O>> {
+  debugContext: DebugContext<O>,
+  key: K
+): React.ComponentType<WithDebugProps<P, O, K>> {
   const Ctx = debugContext;
-  class WithDebug extends React.Component<WithDebugProps<P, O>> {
+  class WithDebugClass extends React.Component<WithDebugProps<P, O, K>> {
     public render() {
-      if (!debugContext.enabled) {
-        return (
-          <Component
-            {...this.props}
-            debug={false}
-            debugOptions={{
-              ...(this.props.debugOptions as any),
-              debugChildren: false
-            }}
-          />
-        );
-      }
+      const cleanProps = { ...(this.props as any) };
+      delete cleanProps.debug;
+      delete cleanProps.debugDescendants;
       return (
         <Ctx.Consumer>
           {(d) => {
-            let debugChildren: boolean | undefined;
+            let debugProps: any;
 
-            const contextDebugging = d.debugging;
-            const contextDebugChildren =
-              d.debugging && d.options && d.options.debugChildren === true;
-
-            if (this.props.debugOptions) {
-              debugChildren = this.props.debugOptions.debugChildren;
-            } else if (d.options) {
-              debugChildren = contextDebugChildren;
+            if (this.props.debug == null) {
+              debugProps = d.debug || undefined;
+            } else if (this.props.debug === false) {
+              debugProps = false;
+            } else {
+              debugProps = true;
             }
 
-            const debug =
-              this.props.debug !== undefined ? this.props.debug : d.debugging;
-            if (debugChildren !== undefined && debugChildren !== d.debugging) {
+            if (debugProps) {
+              const contextProps = (d as any)[key];
+              const componentProps = this.props.debug as any;
+              if (contextProps || componentProps) {
+                debugProps = {
+                  ...contextProps,
+                  ...componentProps
+                };
+              }
+            }
+
+            if (this.props.debugDescendants != null) {
               return (
                 <Ctx.Provider
                   value={{
-                    debugging: debugChildren,
-                    options: this.props.debugOptions || d.options
+                    ...(d as any),
+                    debug:
+                      typeof this.props.debugDescendants === "boolean"
+                        ? this.props.debugDescendants
+                        : this.props.debugDescendants != null,
+                    [key]: {
+                      ...(d as any)[key],
+                      ...(this.props.debugDescendants as any)
+                    }
                   }}
                 >
-                  <Component
-                    {...this.props}
-                    debug={debug}
-                    debugOptions={this.props.debugOptions || d.options}
-                  />
+                  <Component {...cleanProps} debug={debugProps} />
                 </Ctx.Provider>
               );
             } else {
-              return (
-                <Component
-                  {...this.props}
-                  debug={debug}
-                  debugOptions={this.props.debugOptions || d.options}
-                />
-              );
+              return <Component {...cleanProps} debug={debugProps} />;
             }
           }}
         </Ctx.Consumer>
       );
     }
   }
-  (WithDebug as any).displayName = `${Component.displayName ||
+  (WithDebugClass as any).displayName = `${Component.displayName ||
     Component.name}.WithDebug`;
-  return WithDebug;
+  return WithDebugClass;
 }
