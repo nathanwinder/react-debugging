@@ -1,6 +1,6 @@
 {
   "name": "@winderful/react-debugging",
-  "version": "0.1.1",
+  "version": "0.3.0",
   "description": "A TypeScript React library used by componets that support debugging.",
   "main": "lib/index.js",
   "author": "Nathan Winder",
