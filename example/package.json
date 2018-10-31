@@ -1,12 +1,12 @@
 {
   "name": "example",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
+    "@winderful/react-debugging": "github:nathanwinder/react-debugging",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-scripts-ts": "3.1.0",
-    "@winderful/react-debugging": "github:nathanwinder/react-debugging"
+    "react-scripts-ts": "3.1.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
