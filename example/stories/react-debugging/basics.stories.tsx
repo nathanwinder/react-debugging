@@ -4,19 +4,14 @@ import * as React from "react";
 // import { linkTo } from "@storybook/addon-links";
 import { storiesOf } from "@storybook/react";
 import { createDebugContext, withDebugProps } from "@winderful/react-debugging";
-import { BoxBase, colors, IBoxDebugOptions } from "../../src/Box/index";
-
-interface IDebugOptions {
-  box?: IBoxDebugOptions;
-}
+import { BoxBase, colors } from "../../src/Box/index";
 
 function getDebugColor(debug: boolean | undefined): colors {
   return debug === true ? "black" : "transparent";
 }
 
 function getEnhancedBox(options: { debugOn: boolean }) {
-  // TODO: Need to remove options type
-  const DebugContext = createDebugContext<IDebugOptions>(options.debugOn);
+  const DebugContext = createDebugContext(options.debugOn);
 
   // add a debug prop to your component
   const Box = (props: { debug?: boolean; color: colors; children?: any }) => (
@@ -34,8 +29,7 @@ function getEnhancedBox(options: { debugOn: boolean }) {
 storiesOf("react-debugging/basics", module)
   .add("Add debugging to a component", () => {
     // create a debug context with debugging turned on by default
-    // TODO: Need to remove options type
-    const DebugContext = createDebugContext<IDebugOptions>(true);
+    const DebugContext = createDebugContext(true);
 
     // add a debug prop to your component
     const Box = (props: { debug?: boolean; color: colors; children?: any }) => (
@@ -50,7 +44,8 @@ storiesOf("react-debugging/basics", module)
     // debugging is inherited from the context (border)
     return <Box.WithDebug color="red" />;
   })
-  .add("Use the context consumer directly", () => {
+
+  .add("Use the debugging context consumer directly", () => {
     const { DebugContext } = getEnhancedBox({ debugOn: true });
 
     return (
@@ -64,7 +59,8 @@ storiesOf("react-debugging/basics", module)
       </DebugContext.Consumer>
     );
   })
-  .add("Inherit debugging from the context", () => {
+
+  .add("Turn on debugging from the context", () => {
     // create a Box enhanced by a context that has
     // debugging turned on by default
     const { Box } = getEnhancedBox({ debugOn: true });
@@ -72,39 +68,16 @@ storiesOf("react-debugging/basics", module)
     return (
       /* debug is inherited */
       <Box.WithDebug color="red">
-        {/* not using HOC, debug is not inherited */}
-        <Box color="blue">
-          {/* debug is inherited */}
-          <Box.WithDebug color="green" />
-        </Box>
-      </Box.WithDebug>
-    );
-  })
-  .add("Turn on debugging for descendants", () => {
-    const { Box } = getEnhancedBox({ debugOn: false });
-
-    return (
-      /* enabled debugging for descendants*/
-      <Box.WithDebug color="red" debugDescendants={true}>
+        {/* debug is inherited */}
         <Box.WithDebug color="blue">
-          <Box.WithDebug color="green" />
+          {/* not using HOC, debug is not inherited */}
+          <Box color="green" />
         </Box.WithDebug>
       </Box.WithDebug>
     );
   })
-  .add("Turn off debugging for descendants", () => {
-    const { Box } = getEnhancedBox({ debugOn: true });
 
-    return (
-      /* enabled debugging for descendants*/
-      <Box.WithDebug color="red" debugDescendants={false}>
-        <Box.WithDebug color="blue">
-          <Box.WithDebug color="green" />
-        </Box.WithDebug>
-      </Box.WithDebug>
-    );
-  })
-  .add("Turn debugging off for a component", () => {
+  .add("Turn off debugging for a component", () => {
     const { Box } = getEnhancedBox({ debugOn: true });
 
     return (
@@ -116,7 +89,8 @@ storiesOf("react-debugging/basics", module)
       </Box.WithDebug>
     );
   })
-  .add("*[Broken] Turn debugging on for a component", () => {
+
+  .add("Turn on debugging for a component", () => {
     const { Box } = getEnhancedBox({ debugOn: false });
 
     return (
@@ -128,31 +102,59 @@ storiesOf("react-debugging/basics", module)
       </Box.WithDebug>
     );
   })
-  .add("Turn on debugging for descendants using the Provider", () => {
+
+  .add("Turn on debugging for a tree using a component", () => {
+    const { Box } = getEnhancedBox({ debugOn: false });
+
+    return (
+      /* enabled debugging for descendants*/
+      <Box.WithDebug color="red">
+        <Box.WithDebug color="blue" debug={true} debugScope={true}>
+          <Box.WithDebug color="green" />
+        </Box.WithDebug>
+      </Box.WithDebug>
+    );
+  })
+
+  .add("Turn off debugging for a tree using a component", () => {
+    const { Box } = getEnhancedBox({ debugOn: true });
+
+    return (
+      /* enabled debugging for descendants*/
+      <Box.WithDebug color="red">
+        <Box.WithDebug color="blue" debug={false} debugScope={true}>
+          <Box.WithDebug color="green" />
+        </Box.WithDebug>
+      </Box.WithDebug>
+    );
+  })
+
+  .add("Turn on debugging for a tree using Scope", () => {
     const { DebugContext, Box } = getEnhancedBox({ debugOn: false });
 
     return (
       <Box.WithDebug color="red">
         {/* enabled debugging for descendants*/}
-        <DebugContext.Provider value={{ debug: true }}>
+        <DebugContext.Scope debug={true}>
           <Box.WithDebug color="blue">
             <Box.WithDebug color="green" />
           </Box.WithDebug>
-        </DebugContext.Provider>
+        </DebugContext.Scope>
       </Box.WithDebug>
     );
   })
-  .add("Turn off debugging for descendants using the Provider", () => {
+
+  .add("Turn off debugging for a tree using the Scope", () => {
     const { DebugContext, Box } = getEnhancedBox({ debugOn: true });
 
     return (
       <Box.WithDebug color="red">
         {/* disable debugging for descendants*/}
-        <DebugContext.Provider value={{ debug: false }}>
+        <DebugContext.Scope debug={false}>
           <Box.WithDebug color="blue">
             <Box.WithDebug color="green" />
           </Box.WithDebug>
-        </DebugContext.Provider>
+        </DebugContext.Scope>
       </Box.WithDebug>
     );
   });

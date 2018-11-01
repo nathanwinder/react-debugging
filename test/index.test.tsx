@@ -83,11 +83,11 @@ describe("Debug context status:", () => {
     Steps.givenTheContextDebuggingIsOff();
     Steps.givenTheTree(() => (
       <Steps.Box id="a">
-        <Steps.Ctx.Provider value={{ debug: true }}>
+        <Steps.Ctx.Scope debug={true}>
           <Steps.Box id="b">
             <Steps.Box id="c" />
           </Steps.Box>
-        </Steps.Ctx.Provider>
+        </Steps.Ctx.Scope>
       </Steps.Box>
     ));
 
@@ -103,11 +103,11 @@ describe("Debug context status:", () => {
     Steps.givenTheContextDebuggingIsOff();
     Steps.givenTheTree(() => (
       <Steps.Box id="a">
-        <Steps.Ctx.Provider value={{ debug: true }}>
+        <Steps.Ctx.Scope debug={true}>
           <Steps.Box id="b">
             <Steps.Box id="c" />
           </Steps.Box>
-        </Steps.Ctx.Provider>
+        </Steps.Ctx.Scope>
       </Steps.Box>
     ));
 
@@ -123,11 +123,11 @@ describe("Debug context status:", () => {
     Steps.givenTheContextDebuggingIsOn();
     Steps.givenTheTree(() => (
       <Steps.Box id="a">
-        <Steps.Ctx.Provider value={{ debug: false }}>
+        <Steps.Ctx.Scope debug={false}>
           <Steps.Box id="b">
             <Steps.Box id="c" />
           </Steps.Box>
-        </Steps.Ctx.Provider>
+        </Steps.Ctx.Scope>
       </Steps.Box>
     ));
 
@@ -143,13 +143,13 @@ describe("Debug context status:", () => {
     Steps.givenTheContextDebuggingIsOn();
     Steps.givenTheTree(() => (
       <Steps.Box id="a">
-        <Steps.Ctx.Provider value={{ debug: false }}>
+        <Steps.Ctx.Scope debug={false}>
           <Steps.Box id="b">
-            <Steps.Ctx.Provider value={{ debug: true }}>
+            <Steps.Ctx.Scope debug={true}>
               <Steps.Box id="c" />
-            </Steps.Ctx.Provider>
+            </Steps.Ctx.Scope>
           </Steps.Box>
-        </Steps.Ctx.Provider>
+        </Steps.Ctx.Scope>
       </Steps.Box>
     ));
 
@@ -171,25 +171,7 @@ describe("Component status:", () => {
   it("Component turns descendant debugging off", () => {
     Steps.givenTheContextDebuggingIsOn();
     Steps.givenTheTree(() => (
-      <Steps.Box id="a" debugDescendants={false}>
-        <Steps.Box id="b">
-          <Steps.Box id="c" />
-        </Steps.Box>
-      </Steps.Box>
-    ));
-
-    Steps.whenTheAppRenders();
-
-    Steps.thenBox("a").hasDebugTurnedOn();
-    Steps.thenBox("b").hasDebugTurnedOff();
-    Steps.thenBox("c").hasDebugTurnedOff();
-    Steps.thenTheSnapshotMatches();
-  });
-
-  it("Component turns descendant debugging on", () => {
-    Steps.givenTheContextDebuggingIsOff();
-    Steps.givenTheTree(() => (
-      <Steps.Box id="a" debugDescendants={true}>
+      <Steps.Box id="a" debug={false} debugScope={true}>
         <Steps.Box id="b">
           <Steps.Box id="c" />
         </Steps.Box>
@@ -199,6 +181,24 @@ describe("Component status:", () => {
     Steps.whenTheAppRenders();
 
     Steps.thenBox("a").hasDebugTurnedOff();
+    Steps.thenBox("b").hasDebugTurnedOff();
+    Steps.thenBox("c").hasDebugTurnedOff();
+    Steps.thenTheSnapshotMatches();
+  });
+
+  it("Component turns descendant debugging on", () => {
+    Steps.givenTheContextDebuggingIsOff();
+    Steps.givenTheTree(() => (
+      <Steps.Box id="a" debug={true} debugScope={true}>
+        <Steps.Box id="b">
+          <Steps.Box id="c" />
+        </Steps.Box>
+      </Steps.Box>
+    ));
+
+    Steps.whenTheAppRenders();
+
+    Steps.thenBox("a").hasDebugTurnedOn();
     Steps.thenBox("b").hasDebugTurnedOn();
     Steps.thenBox("c").hasDebugTurnedOn();
     Steps.thenTheSnapshotMatches();
@@ -207,7 +207,7 @@ describe("Component status:", () => {
   it("Descendant turns debugging off", () => {
     Steps.givenTheContextDebuggingIsOff();
     Steps.givenTheTree(() => (
-      <Steps.Box id="a" debugDescendants={true}>
+      <Steps.Box id="a" debug={true} debugScope={true}>
         <Steps.Box id="b" debug={false}>
           <Steps.Box id="c" />
         </Steps.Box>
@@ -216,7 +216,7 @@ describe("Component status:", () => {
 
     Steps.whenTheAppRenders();
 
-    Steps.thenBox("a").hasDebugTurnedOff();
+    Steps.thenBox("a").hasDebugTurnedOn();
     Steps.thenBox("b").hasDebugTurnedOff();
     Steps.thenBox("c").hasDebugTurnedOn();
     Steps.thenTheSnapshotMatches();
@@ -225,7 +225,7 @@ describe("Component status:", () => {
   it("Descendant turns debugging on", () => {
     Steps.givenTheContextDebuggingIsOn();
     Steps.givenTheTree(() => (
-      <Steps.Box id="a" debugDescendants={false}>
+      <Steps.Box id="a" debug={false} debugScope={true}>
         <Steps.Box id="b" debug={true}>
           <Steps.Box id="c" />
         </Steps.Box>
@@ -234,7 +234,7 @@ describe("Component status:", () => {
 
     Steps.whenTheAppRenders();
 
-    Steps.thenBox("a").hasDebugTurnedOn();
+    Steps.thenBox("a").hasDebugTurnedOff();
     Steps.thenBox("b").hasDebugTurnedOn();
     Steps.thenBox("c").hasDebugTurnedOff();
     Steps.thenTheSnapshotMatches();
@@ -290,7 +290,7 @@ describe("Debug options", () => {
 
     Steps.givenTheTree(() => (
       <Steps.Box id="a">
-        <Steps.Box id="b" debugDescendants={{ color: "green" }}>
+        <Steps.Box id="b" debug={{ color: "green" }} debugScope={true}>
           <Steps.Box id="c" />
         </Steps.Box>
       </Steps.Box>
@@ -299,30 +299,174 @@ describe("Debug options", () => {
     Steps.whenTheAppRenders();
 
     Steps.thenBox("a").hasColor("red");
-    Steps.thenBox("b").hasColor("red");
+    Steps.thenBox("b").hasColor("green");
     Steps.thenBox("c").hasColor("green");
     Steps.thenTheSnapshotMatches();
   });
 
-  // it("Provider allows unaltered context options to pass through", () => {
-  //   Steps.givenTheContextDebuggingIsOn();
-  //   Steps.givenTheContextColorIs("red");
+  it("Scope allows unaltered context options to pass through", () => {
+    Steps.givenTheContextDebuggingIsOn();
+    Steps.givenTheContextColorIs("red");
 
-  //   Steps.givenTheTree(() => (
-  //     <Steps.Box id="a">
-  //       <Steps.Ctx.Provider value={{ debug: true }}>
-  //         <Steps.Box id="b">
-  //           <Steps.Box id="c" />
-  //         </Steps.Box>
-  //       </Steps.Ctx.Provider>
-  //     </Steps.Box>
-  //   ));
+    Steps.givenTheTree(() => (
+      <Steps.Box id="a">
+        <Steps.Ctx.Scope debug={true}>
+          <Steps.Box id="b">
+            <Steps.Box id="c" />
+          </Steps.Box>
+        </Steps.Ctx.Scope>
+      </Steps.Box>
+    ));
 
-  //   Steps.whenTheAppRenders();
+    Steps.whenTheAppRenders();
 
-  //   Steps.thenBox("a").hasColor("red");
-  //   Steps.thenBox("b").hasColor("red");
-  //   Steps.thenBox("c").hasColor("red");
-  //   Steps.thenTheSnapshotMatches();
-  // });
+    Steps.thenBox("a").hasColor("red");
+    Steps.thenBox("b").hasColor("red");
+    Steps.thenBox("c").hasColor("red");
+    Steps.thenTheSnapshotMatches();
+  });
+
+  it("Scope merges options with parent context", () => {
+    Steps.givenTheContextDebuggingIsOn();
+    Steps.givenTheContextColorIs("black");
+    Steps.givenTheContextStyleIs("dash");
+
+    Steps.givenTheTree(() => (
+      <Steps.Box id="a">
+        <Steps.Ctx.Scope debug={{ box: { color: "red" } }}>
+          <Steps.Box id="b">
+            <Steps.Box id="c" />
+          </Steps.Box>
+        </Steps.Ctx.Scope>
+      </Steps.Box>
+    ));
+
+    Steps.whenTheAppRenders();
+
+    Steps.thenBox("a").hasColor("black");
+    Steps.thenBox("a").hasStyle("dash");
+    Steps.thenBox("b").hasColor("red");
+    Steps.thenBox("b").hasStyle("dash");
+    Steps.thenBox("c").hasColor("red");
+    Steps.thenBox("c").hasStyle("dash");
+    Steps.thenTheSnapshotMatches();
+  });
+
+  it("Scope merges options down tree", () => {
+    Steps.givenTheContextDebuggingIsOn();
+    Steps.givenTheContextColorIs("black");
+    Steps.givenTheContextStyleIs("dash");
+
+    Steps.givenTheTree(() => (
+      <Steps.Box id="a">
+        <Steps.Ctx.Scope debug={{ box: { color: "red" } }}>
+          <Steps.Box id="b">
+            <Steps.Ctx.Scope debug={{ box: { style: "dot" } }}>
+              <Steps.Box id="c" />
+            </Steps.Ctx.Scope>
+          </Steps.Box>
+        </Steps.Ctx.Scope>
+      </Steps.Box>
+    ));
+
+    Steps.whenTheAppRenders();
+
+    Steps.thenBox("a").hasColor("black");
+    Steps.thenBox("a").hasStyle("dash");
+    Steps.thenBox("b").hasColor("red");
+    Steps.thenBox("b").hasStyle("dash");
+    Steps.thenBox("c").hasColor("red");
+    Steps.thenBox("c").hasStyle("dot");
+    Steps.thenTheSnapshotMatches();
+  });
+
+  it("Scoped component merges options down tree", () => {
+    Steps.givenTheContextDebuggingIsOn();
+    Steps.givenTheContextColorIs("black");
+    Steps.givenTheContextStyleIs("dash");
+
+    Steps.givenTheTree(() => (
+      <Steps.Box id="a" debug={{ color: "red" }} debugScope={true}>
+        <Steps.Box id="b" debug={{ style: "dot" }} debugScope={true}>
+          <Steps.Box id="c" />
+        </Steps.Box>
+      </Steps.Box>
+    ));
+
+    Steps.whenTheAppRenders();
+
+    Steps.thenBox("a").hasColor("red");
+    Steps.thenBox("a").hasStyle("dash");
+    Steps.thenBox("b").hasColor("red");
+    Steps.thenBox("b").hasStyle("dot");
+    Steps.thenBox("c").hasColor("red");
+    Steps.thenBox("c").hasStyle("dot");
+    Steps.thenTheSnapshotMatches();
+  });
+
+  it("Setting debug without context options.", () => {
+    Steps.givenTheContextDebuggingIsOff();
+    Steps.givenTheContextOptionsAre(undefined);
+
+    Steps.givenTheTree(() => (
+      <Steps.Box id="a">
+        <Steps.Box id="b" debug={true}>
+          <Steps.Box id="c" />
+        </Steps.Box>
+      </Steps.Box>
+    ));
+
+    Steps.whenTheAppRenders();
+
+    Steps.thenBox("a").hasDebugTurnedOff();
+    Steps.thenBox("b").hasDebugTurnedOn();
+    Steps.thenBox("c").hasDebugTurnedOff();
+    Steps.thenTheSnapshotMatches();
+  });
+
+  it("Setting scope without context options.", () => {
+    Steps.givenTheContextDebuggingIsOff();
+    Steps.givenTheContextOptionsAre(undefined);
+
+    Steps.givenTheTree(() => (
+      <Steps.Box id="a">
+        <Steps.Ctx.Scope debug={true}>
+          <Steps.Box id="b">
+            <Steps.Box id="c" />
+          </Steps.Box>
+        </Steps.Ctx.Scope>
+      </Steps.Box>
+    ));
+
+    Steps.whenTheAppRenders();
+
+    Steps.thenBox("a").hasDebugTurnedOff();
+    Steps.thenBox("b").hasDebugTurnedOn();
+    Steps.thenBox("c").hasDebugTurnedOn();
+    Steps.thenTheSnapshotMatches();
+  });
+
+  it("Setting scope options without context options.", () => {
+    Steps.givenTheContextDebuggingIsOff();
+    Steps.givenTheContextOptionsAre(undefined);
+
+    Steps.givenTheTree(() => (
+      <Steps.Box id="a">
+        <Steps.Ctx.Scope debug={{ box: { color: "red" } }}>
+          <Steps.Box id="b">
+            <Steps.Box id="c" />
+          </Steps.Box>
+        </Steps.Ctx.Scope>
+      </Steps.Box>
+    ));
+
+    Steps.whenTheAppRenders();
+
+    Steps.thenBox("a").hasDebugTurnedOff();
+    Steps.thenBox("b").hasDebugTurnedOn();
+    Steps.thenBox("b").hasColor("red");
+    Steps.thenBox("c").hasDebugTurnedOn();
+    Steps.thenBox("b").hasColor("red");
+    Steps.thenTheSnapshotMatches();
+  });
 });

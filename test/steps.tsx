@@ -2,19 +2,20 @@ import { mount, ReactWrapper } from "enzyme";
 import { configure } from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
 import * as React from "react";
-import { createDebugContext, withDebugProps } from "../src";
+import { createDebugContext, withDebugProps } from "../src/index";
 
 configure({ adapter: new Adapter() });
 
 export interface DebugOptions {
   box?: {
     color?: string;
+    style?: string | undefined;
   };
 }
 
 const Box = (props: {
   id: string;
-  debug?: boolean | { color: string };
+  debug?: boolean | { color: string; style: string };
   children?: any;
 }) => (
   <div
@@ -23,6 +24,9 @@ const Box = (props: {
       props.debug ? "debug" : "",
       typeof props.debug === "object" && props.debug.color
         ? props.debug.color
+        : "",
+      typeof props.debug === "object" && props.debug.style
+        ? props.debug.style
         : ""
     ].join(" ")}
   >
@@ -40,7 +44,12 @@ export class Steps {
   private tree: React.ComponentType<any> | null = null;
   private wrapper: ReactWrapper | null = null;
   private debugging: boolean = false;
-  private contextColor: string = "red";
+  private contextOptions: DebugOptions | undefined = {
+    box: {
+      color: "red",
+      style: undefined
+    }
+  };
 
   public givenTheContextDebuggingIsOn() {
     this.debugging = true;
@@ -51,7 +60,19 @@ export class Steps {
     this.createContext();
   }
   public givenTheContextColorIs(color: string) {
-    this.contextColor = color;
+    this.contextOptions = this.contextOptions || {};
+    this.contextOptions.box = this.contextOptions.box || {};
+    this.contextOptions.box.color = color;
+    this.createContext();
+  }
+  public givenTheContextStyleIs(style: string) {
+    this.contextOptions = this.contextOptions || {};
+    this.contextOptions.box = this.contextOptions.box || {};
+    this.contextOptions.box.style = style;
+    this.createContext();
+  }
+  public givenTheContextOptionsAre(options: DebugOptions | undefined) {
+    this.contextOptions = options;
     this.createContext();
   }
 
@@ -87,6 +108,13 @@ export class Steps {
         } else {
           expect(this.wrapper).toBeDefined();
         }
+      },
+      hasStyle: (style: string) => {
+        if (this.wrapper) {
+          expect(this.wrapper.find(`div#${id}`).hasClass(style)).toBe(true);
+        } else {
+          expect(this.wrapper).toBeDefined();
+        }
       }
     };
   }
@@ -95,11 +123,10 @@ export class Steps {
   }
 
   private createContext() {
-    this.Ctx = createDebugContext<DebugOptions>(this.debugging, {
-      box: {
-        color: this.contextColor
-      }
-    });
+    this.Ctx = createDebugContext<DebugOptions>(
+      this.debugging,
+      this.contextOptions
+    );
     this.Box = withDebugProps(Box, this.Ctx, "box");
   }
 }

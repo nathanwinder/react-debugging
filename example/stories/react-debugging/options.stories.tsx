@@ -95,6 +95,7 @@ storiesOf("react-debugging/options", module)
     // debugging is inherited from the context (border)
     return <Box.WithDebug color="red" />;
   })
+
   .add("Set options for component", () => {
     const { Box } = getEnhancedBox({
       debugOn: true,
@@ -110,7 +111,8 @@ storiesOf("react-debugging/options", module)
       </Box.WithDebug>
     );
   })
-  .add("Set options for descendant components", () => {
+
+  .add("Set options for a tree using a component", () => {
     const { Box } = getEnhancedBox({
       debugOn: true,
       options: { box: { color: "black" } }
@@ -118,39 +120,38 @@ storiesOf("react-debugging/options", module)
 
     return (
       // set the options using the debug property
-      <Box.WithDebug color="red" debugDescendants={{ color: "blue" }}>
+      <Box.WithDebug color="red" debug={{ color: "blue" }} debugScope={true}>
         <Box.WithDebug color="blue">
           <Box.WithDebug color="green" />
         </Box.WithDebug>
       </Box.WithDebug>
     );
   })
-  .add("Set options for descendant components using Provider", () => {
+  .add("Set options for a tree using Scope", () => {
     const { DebugContext, Box } = getEnhancedBox({
       debugOn: true,
       options: { box: { color: "black" } }
     });
 
     return (
-      // set the options using the debug property
       <Box.WithDebug color="red">
-        {/* TODO: Remove "debug" statement once support for inheritance is added */}
-        <DebugContext.Provider value={{ debug: true, box: { color: "blue" } }}>
+        {/* set the options using the debug property */}
+        <DebugContext.Scope debug={{ box: { color: "blue" } }}>
           <Box.WithDebug color="blue">
             <Box.WithDebug color="green" />
           </Box.WithDebug>
-        </DebugContext.Provider>
+        </DebugContext.Scope>
       </Box.WithDebug>
     );
   })
-  .add("Set options for component overriding inheritance", () => {
+  .add("Options set for component override inherited options", () => {
     const { Box } = getEnhancedBox({
       debugOn: true,
       options: { box: { color: "red" } }
     });
 
     return (
-      <Box.WithDebug color="red" debugDescendants={{ color: "blue" }}>
+      <Box.WithDebug color="red" debug={{ color: "blue" }} debugScope={true}>
         <Box.WithDebug color="blue">
           {/* Override value inherited from red */}
           <Box.WithDebug color="green" debug={{ color: "green" }} />
@@ -167,35 +168,34 @@ storiesOf("react-debugging/options", module)
 
     return (
       // overrides color and style for descendants
-      <Box.WithDebug
-        color="red"
-        debugDescendants={{ color: "blue", style: "solid" }}
-      >
+      <Box.WithDebug color="red" debug={{ style: "solid" }} debugScope={true}>
         {/* Overrides color for descendant but does not override style */}
-        <Box.WithDebug color="blue" debugDescendants={{ color: "green" }}>
+        <Box.WithDebug
+          color="blue"
+          debug={{ color: "green" }}
+          debugScope={true}
+        >
           <Box.WithDebug color="green" />
         </Box.WithDebug>
       </Box.WithDebug>
     );
   })
 
-  .add("*[Broken] Provider inherits options from parent context", () => {
+  .add("Provider inherits options from parent context", () => {
     const { DebugContext, Box } = getEnhancedBox({
       debugOn: true,
       options: { box: { color: "black", style: "solid" } }
     });
 
     return (
-      <DebugContext.Provider value={{ debug: true, box: { color: "red" } }}>
+      <DebugContext.Scope debug={{ box: { color: "red" } }}>
         <Box.WithDebug color="red">
-          <DebugContext.Provider
-            value={{ debug: true, box: { style: "dashed" } }}
-          >
+          <DebugContext.Scope debug={{ box: { style: "dashed" } }}>
             <Box.WithDebug color="blue">
               <Box.WithDebug color="green" />
             </Box.WithDebug>
-          </DebugContext.Provider>
+          </DebugContext.Scope>
         </Box.WithDebug>
-      </DebugContext.Provider>
+      </DebugContext.Scope>
     );
   });
