@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.4.0 Refactored context provider
+
+1. Context.Provider is now a normal Provider
+2. Added a Scope component in the context for changing debug and options in scope
+3. Removed the "debugDescendants" prop and replaced with "debugScope"
+4. Fixed known bugs with inheritance
+
 ## 0.3.0 Added Storybook
 
 1. Created a storybook to demonstrate features
