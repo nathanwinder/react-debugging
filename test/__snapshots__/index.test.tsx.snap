@@ -4,19 +4,15 @@ exports[`Component status: Component turns descendant debugging off 1`] = `
 <App>
   <Component>
     <Box.WithDebug
-      debugDescendants={false}
+      debug={false}
+      debugScope={true}
       id="a"
     >
       <Box
-        debug={
-          Object {
-            "color": "red",
-          }
-        }
         id="a"
       >
         <div
-          className="debug red"
+          className="  "
           id="a"
         >
           <Box.WithDebug
@@ -26,7 +22,7 @@ exports[`Component status: Component turns descendant debugging off 1`] = `
               id="b"
             >
               <div
-                className=" "
+                className="  "
                 id="b"
               >
                 <Box.WithDebug
@@ -36,7 +32,7 @@ exports[`Component status: Component turns descendant debugging off 1`] = `
                     id="c"
                   >
                     <div
-                      className=" "
+                      className="  "
                       id="c"
                     />
                   </Box>
@@ -55,44 +51,43 @@ exports[`Component status: Component turns descendant debugging on 1`] = `
 <App>
   <Component>
     <Box.WithDebug
-      debugDescendants={true}
+      debug={true}
+      debugScope={true}
       id="a"
     >
       <Box
+        debug={
+          Object {
+            "color": "red",
+            "style": undefined,
+          }
+        }
         id="a"
       >
         <div
-          className=" "
+          className="debug red "
           id="a"
         >
           <Box.WithDebug
             id="b"
           >
             <Box
-              debug={
-                Object {
-                  "color": "red",
-                }
-              }
+              debug={true}
               id="b"
             >
               <div
-                className="debug red"
+                className="debug  "
                 id="b"
               >
                 <Box.WithDebug
                   id="c"
                 >
                   <Box
-                    debug={
-                      Object {
-                        "color": "red",
-                      }
-                    }
+                    debug={true}
                     id="c"
                   >
                     <div
-                      className="debug red"
+                      className="debug  "
                       id="c"
                     />
                   </Box>
@@ -111,14 +106,21 @@ exports[`Component status: Descendant turns debugging off 1`] = `
 <App>
   <Component>
     <Box.WithDebug
-      debugDescendants={true}
+      debug={true}
+      debugScope={true}
       id="a"
     >
       <Box
+        debug={
+          Object {
+            "color": "red",
+            "style": undefined,
+          }
+        }
         id="a"
       >
         <div
-          className=" "
+          className="debug red "
           id="a"
         >
           <Box.WithDebug
@@ -126,26 +128,21 @@ exports[`Component status: Descendant turns debugging off 1`] = `
             id="b"
           >
             <Box
-              debug={false}
               id="b"
             >
               <div
-                className=" "
+                className="  "
                 id="b"
               >
                 <Box.WithDebug
                   id="c"
                 >
                   <Box
-                    debug={
-                      Object {
-                        "color": "red",
-                      }
-                    }
+                    debug={true}
                     id="c"
                   >
                     <div
-                      className="debug red"
+                      className="debug  "
                       id="c"
                     />
                   </Box>
@@ -164,19 +161,15 @@ exports[`Component status: Descendant turns debugging on 1`] = `
 <App>
   <Component>
     <Box.WithDebug
-      debugDescendants={false}
+      debug={false}
+      debugScope={true}
       id="a"
     >
       <Box
-        debug={
-          Object {
-            "color": "red",
-          }
-        }
         id="a"
       >
         <div
-          className="debug red"
+          className="  "
           id="a"
         >
           <Box.WithDebug
@@ -187,12 +180,13 @@ exports[`Component status: Descendant turns debugging on 1`] = `
               debug={
                 Object {
                   "color": "red",
+                  "style": undefined,
                 }
               }
               id="b"
             >
               <div
-                className="debug red"
+                className="debug red "
                 id="b"
               >
                 <Box.WithDebug
@@ -202,7 +196,7 @@ exports[`Component status: Descendant turns debugging on 1`] = `
                     id="c"
                   >
                     <div
-                      className=" "
+                      className="  "
                       id="c"
                     />
                   </Box>
@@ -227,12 +221,13 @@ exports[`Debug context status: Component turns off debugging 1`] = `
         debug={
           Object {
             "color": "red",
+            "style": undefined,
           }
         }
         id="a"
       >
         <div
-          className="debug red"
+          className="debug red "
           id="a"
         >
           <Box.WithDebug
@@ -240,11 +235,10 @@ exports[`Debug context status: Component turns off debugging 1`] = `
             id="b"
           >
             <Box
-              debug={false}
               id="b"
             >
               <div
-                className=" "
+                className="  "
                 id="b"
               >
                 <Box.WithDebug
@@ -254,12 +248,13 @@ exports[`Debug context status: Component turns off debugging 1`] = `
                     debug={
                       Object {
                         "color": "red",
+                        "style": undefined,
                       }
                     }
                     id="c"
                   >
                     <div
-                      className="debug red"
+                      className="debug red "
                       id="c"
                     />
                   </Box>
@@ -284,7 +279,7 @@ exports[`Debug context status: Component turns on debugging 1`] = `
         id="a"
       >
         <div
-          className=" "
+          className="  "
           id="a"
         >
           <Box.WithDebug
@@ -295,12 +290,13 @@ exports[`Debug context status: Component turns on debugging 1`] = `
               debug={
                 Object {
                   "color": "red",
+                  "style": undefined,
                 }
               }
               id="b"
             >
               <div
-                className="debug red"
+                className="debug red "
                 id="b"
               >
                 <Box.WithDebug
@@ -310,7 +306,7 @@ exports[`Debug context status: Component turns on debugging 1`] = `
                     id="c"
                   >
                     <div
-                      className=" "
+                      className="  "
                       id="c"
                     />
                   </Box>
@@ -335,7 +331,7 @@ exports[`Debug context status: Context debugging is off 1`] = `
         id="a"
       >
         <div
-          className=" "
+          className="  "
           id="a"
         >
           <Box.WithDebug
@@ -345,7 +341,7 @@ exports[`Debug context status: Context debugging is off 1`] = `
               id="b"
             >
               <div
-                className=" "
+                className="  "
                 id="b"
               >
                 <Box.WithDebug
@@ -355,7 +351,7 @@ exports[`Debug context status: Context debugging is off 1`] = `
                     id="c"
                   >
                     <div
-                      className=" "
+                      className="  "
                       id="c"
                     />
                   </Box>
@@ -380,12 +376,13 @@ exports[`Debug context status: Context debugging is on 1`] = `
         debug={
           Object {
             "color": "red",
+            "style": undefined,
           }
         }
         id="a"
       >
         <div
-          className="debug red"
+          className="debug red "
           id="a"
         >
           <Box.WithDebug
@@ -395,12 +392,13 @@ exports[`Debug context status: Context debugging is on 1`] = `
               debug={
                 Object {
                   "color": "red",
+                  "style": undefined,
                 }
               }
               id="b"
             >
               <div
-                className="debug red"
+                className="debug red "
                 id="b"
               >
                 <Box.WithDebug
@@ -410,12 +408,13 @@ exports[`Debug context status: Context debugging is on 1`] = `
                     debug={
                       Object {
                         "color": "red",
+                        "style": undefined,
                       }
                     }
                     id="c"
                   >
                     <div
-                      className="debug red"
+                      className="debug red "
                       id="c"
                     />
                   </Box>
@@ -440,40 +439,54 @@ exports[`Debug context status: Nested providers 1`] = `
         debug={
           Object {
             "color": "red",
+            "style": undefined,
           }
         }
         id="a"
       >
         <div
-          className="debug red"
+          className="debug red "
           id="a"
         >
-          <Box.WithDebug
-            id="b"
+          <DebugProviderClass
+            debug={false}
           >
-            <Box
+            <Box.WithDebug
               id="b"
             >
-              <div
-                className=" "
+              <Box
                 id="b"
               >
-                <Box.WithDebug
-                  id="c"
+                <div
+                  className="  "
+                  id="b"
                 >
-                  <Box
+                  <DebugProviderClass
                     debug={true}
-                    id="c"
                   >
-                    <div
-                      className="debug "
+                    <Box.WithDebug
                       id="c"
-                    />
-                  </Box>
-                </Box.WithDebug>
-              </div>
-            </Box>
-          </Box.WithDebug>
+                    >
+                      <Box
+                        debug={
+                          Object {
+                            "color": "red",
+                            "style": undefined,
+                          }
+                        }
+                        id="c"
+                      >
+                        <div
+                          className="debug red "
+                          id="c"
+                        />
+                      </Box>
+                    </Box.WithDebug>
+                  </DebugProviderClass>
+                </div>
+              </Box>
+            </Box.WithDebug>
+          </DebugProviderClass>
         </div>
       </Box>
     </Box.WithDebug>
@@ -491,39 +504,44 @@ exports[`Debug context status: Provider turns debugging off 1`] = `
         debug={
           Object {
             "color": "red",
+            "style": undefined,
           }
         }
         id="a"
       >
         <div
-          className="debug red"
+          className="debug red "
           id="a"
         >
-          <Box.WithDebug
-            id="b"
+          <DebugProviderClass
+            debug={false}
           >
-            <Box
+            <Box.WithDebug
               id="b"
             >
-              <div
-                className=" "
+              <Box
                 id="b"
               >
-                <Box.WithDebug
-                  id="c"
+                <div
+                  className="  "
+                  id="b"
                 >
-                  <Box
+                  <Box.WithDebug
                     id="c"
                   >
-                    <div
-                      className=" "
+                    <Box
                       id="c"
-                    />
-                  </Box>
-                </Box.WithDebug>
-              </div>
-            </Box>
-          </Box.WithDebug>
+                    >
+                      <div
+                        className="  "
+                        id="c"
+                      />
+                    </Box>
+                  </Box.WithDebug>
+                </div>
+              </Box>
+            </Box.WithDebug>
+          </DebugProviderClass>
         </div>
       </Box>
     </Box.WithDebug>
@@ -541,36 +559,50 @@ exports[`Debug context status: Provider turns debugging on 1`] = `
         id="a"
       >
         <div
-          className=" "
+          className="  "
           id="a"
         >
-          <Box.WithDebug
-            id="b"
+          <DebugProviderClass
+            debug={true}
           >
-            <Box
-              debug={true}
+            <Box.WithDebug
               id="b"
             >
-              <div
-                className="debug "
+              <Box
+                debug={
+                  Object {
+                    "color": "red",
+                    "style": undefined,
+                  }
+                }
                 id="b"
               >
-                <Box.WithDebug
-                  id="c"
+                <div
+                  className="debug red "
+                  id="b"
                 >
-                  <Box
-                    debug={true}
+                  <Box.WithDebug
                     id="c"
                   >
-                    <div
-                      className="debug "
+                    <Box
+                      debug={
+                        Object {
+                          "color": "red",
+                          "style": undefined,
+                        }
+                      }
                       id="c"
-                    />
-                  </Box>
-                </Box.WithDebug>
-              </div>
-            </Box>
-          </Box.WithDebug>
+                    >
+                      <div
+                        className="debug red "
+                        id="c"
+                      />
+                    </Box>
+                  </Box.WithDebug>
+                </div>
+              </Box>
+            </Box.WithDebug>
+          </DebugProviderClass>
         </div>
       </Box>
     </Box.WithDebug>
@@ -588,36 +620,50 @@ exports[`Debug context status: Provider turns on debugging 1`] = `
         id="a"
       >
         <div
-          className=" "
+          className="  "
           id="a"
         >
-          <Box.WithDebug
-            id="b"
+          <DebugProviderClass
+            debug={true}
           >
-            <Box
-              debug={true}
+            <Box.WithDebug
               id="b"
             >
-              <div
-                className="debug "
+              <Box
+                debug={
+                  Object {
+                    "color": "red",
+                    "style": undefined,
+                  }
+                }
                 id="b"
               >
-                <Box.WithDebug
-                  id="c"
+                <div
+                  className="debug red "
+                  id="b"
                 >
-                  <Box
-                    debug={true}
+                  <Box.WithDebug
                     id="c"
                   >
-                    <div
-                      className="debug "
+                    <Box
+                      debug={
+                        Object {
+                          "color": "red",
+                          "style": undefined,
+                        }
+                      }
                       id="c"
-                    />
-                  </Box>
-                </Box.WithDebug>
-              </div>
-            </Box>
-          </Box.WithDebug>
+                    >
+                      <div
+                        className="debug red "
+                        id="c"
+                      />
+                    </Box>
+                  </Box.WithDebug>
+                </div>
+              </Box>
+            </Box.WithDebug>
+          </DebugProviderClass>
         </div>
       </Box>
     </Box.WithDebug>
@@ -635,12 +681,13 @@ exports[`Debug options Options are inherited from context 1`] = `
         debug={
           Object {
             "color": "red",
+            "style": undefined,
           }
         }
         id="a"
       >
         <div
-          className="debug red"
+          className="debug red "
           id="a"
         >
           <Box.WithDebug
@@ -650,12 +697,13 @@ exports[`Debug options Options are inherited from context 1`] = `
               debug={
                 Object {
                   "color": "red",
+                  "style": undefined,
                 }
               }
               id="b"
             >
               <div
-                className="debug red"
+                className="debug red "
                 id="b"
               >
                 <Box.WithDebug
@@ -665,12 +713,13 @@ exports[`Debug options Options are inherited from context 1`] = `
                     debug={
                       Object {
                         "color": "red",
+                        "style": undefined,
                       }
                     }
                     id="c"
                   >
                     <div
-                      className="debug red"
+                      className="debug red "
                       id="c"
                     />
                   </Box>
@@ -678,6 +727,467 @@ exports[`Debug options Options are inherited from context 1`] = `
               </div>
             </Box>
           </Box.WithDebug>
+        </div>
+      </Box>
+    </Box.WithDebug>
+  </Component>
+</App>
+`;
+
+exports[`Debug options Scope allows unaltered context options to pass through 1`] = `
+<App>
+  <Component>
+    <Box.WithDebug
+      id="a"
+    >
+      <Box
+        debug={
+          Object {
+            "color": "red",
+            "style": undefined,
+          }
+        }
+        id="a"
+      >
+        <div
+          className="debug red "
+          id="a"
+        >
+          <DebugProviderClass
+            debug={true}
+          >
+            <Box.WithDebug
+              id="b"
+            >
+              <Box
+                debug={
+                  Object {
+                    "color": "red",
+                    "style": undefined,
+                  }
+                }
+                id="b"
+              >
+                <div
+                  className="debug red "
+                  id="b"
+                >
+                  <Box.WithDebug
+                    id="c"
+                  >
+                    <Box
+                      debug={
+                        Object {
+                          "color": "red",
+                          "style": undefined,
+                        }
+                      }
+                      id="c"
+                    >
+                      <div
+                        className="debug red "
+                        id="c"
+                      />
+                    </Box>
+                  </Box.WithDebug>
+                </div>
+              </Box>
+            </Box.WithDebug>
+          </DebugProviderClass>
+        </div>
+      </Box>
+    </Box.WithDebug>
+  </Component>
+</App>
+`;
+
+exports[`Debug options Scope merges options down tree 1`] = `
+<App>
+  <Component>
+    <Box.WithDebug
+      id="a"
+    >
+      <Box
+        debug={
+          Object {
+            "color": "black",
+            "style": "dash",
+          }
+        }
+        id="a"
+      >
+        <div
+          className="debug black dash"
+          id="a"
+        >
+          <DebugProviderClass
+            debug={
+              Object {
+                "box": Object {
+                  "color": "red",
+                },
+              }
+            }
+          >
+            <Box.WithDebug
+              id="b"
+            >
+              <Box
+                debug={
+                  Object {
+                    "color": "red",
+                    "style": "dash",
+                  }
+                }
+                id="b"
+              >
+                <div
+                  className="debug red dash"
+                  id="b"
+                >
+                  <DebugProviderClass
+                    debug={
+                      Object {
+                        "box": Object {
+                          "style": "dot",
+                        },
+                      }
+                    }
+                  >
+                    <Box.WithDebug
+                      id="c"
+                    >
+                      <Box
+                        debug={
+                          Object {
+                            "color": "red",
+                            "style": "dot",
+                          }
+                        }
+                        id="c"
+                      >
+                        <div
+                          className="debug red dot"
+                          id="c"
+                        />
+                      </Box>
+                    </Box.WithDebug>
+                  </DebugProviderClass>
+                </div>
+              </Box>
+            </Box.WithDebug>
+          </DebugProviderClass>
+        </div>
+      </Box>
+    </Box.WithDebug>
+  </Component>
+</App>
+`;
+
+exports[`Debug options Scope merges options with parent context 1`] = `
+<App>
+  <Component>
+    <Box.WithDebug
+      id="a"
+    >
+      <Box
+        debug={
+          Object {
+            "color": "black",
+            "style": "dash",
+          }
+        }
+        id="a"
+      >
+        <div
+          className="debug black dash"
+          id="a"
+        >
+          <DebugProviderClass
+            debug={
+              Object {
+                "box": Object {
+                  "color": "red",
+                },
+              }
+            }
+          >
+            <Box.WithDebug
+              id="b"
+            >
+              <Box
+                debug={
+                  Object {
+                    "color": "red",
+                    "style": "dash",
+                  }
+                }
+                id="b"
+              >
+                <div
+                  className="debug red dash"
+                  id="b"
+                >
+                  <Box.WithDebug
+                    id="c"
+                  >
+                    <Box
+                      debug={
+                        Object {
+                          "color": "red",
+                          "style": "dash",
+                        }
+                      }
+                      id="c"
+                    >
+                      <div
+                        className="debug red dash"
+                        id="c"
+                      />
+                    </Box>
+                  </Box.WithDebug>
+                </div>
+              </Box>
+            </Box.WithDebug>
+          </DebugProviderClass>
+        </div>
+      </Box>
+    </Box.WithDebug>
+  </Component>
+</App>
+`;
+
+exports[`Debug options Scoped component merges options down tree 1`] = `
+<App>
+  <Component>
+    <Box.WithDebug
+      debug={
+        Object {
+          "color": "red",
+        }
+      }
+      debugScope={true}
+      id="a"
+    >
+      <Box
+        debug={
+          Object {
+            "color": "red",
+            "style": "dash",
+          }
+        }
+        id="a"
+      >
+        <div
+          className="debug red dash"
+          id="a"
+        >
+          <Box.WithDebug
+            debug={
+              Object {
+                "style": "dot",
+              }
+            }
+            debugScope={true}
+            id="b"
+          >
+            <Box
+              debug={
+                Object {
+                  "color": "red",
+                  "style": "dot",
+                }
+              }
+              id="b"
+            >
+              <div
+                className="debug red dot"
+                id="b"
+              >
+                <Box.WithDebug
+                  id="c"
+                >
+                  <Box
+                    debug={
+                      Object {
+                        "color": "red",
+                        "style": "dot",
+                      }
+                    }
+                    id="c"
+                  >
+                    <div
+                      className="debug red dot"
+                      id="c"
+                    />
+                  </Box>
+                </Box.WithDebug>
+              </div>
+            </Box>
+          </Box.WithDebug>
+        </div>
+      </Box>
+    </Box.WithDebug>
+  </Component>
+</App>
+`;
+
+exports[`Debug options Setting debug without context options. 1`] = `
+<App>
+  <Component>
+    <Box.WithDebug
+      id="a"
+    >
+      <Box
+        id="a"
+      >
+        <div
+          className="  "
+          id="a"
+        >
+          <Box.WithDebug
+            debug={true}
+            id="b"
+          >
+            <Box
+              debug={true}
+              id="b"
+            >
+              <div
+                className="debug  "
+                id="b"
+              >
+                <Box.WithDebug
+                  id="c"
+                >
+                  <Box
+                    id="c"
+                  >
+                    <div
+                      className="  "
+                      id="c"
+                    />
+                  </Box>
+                </Box.WithDebug>
+              </div>
+            </Box>
+          </Box.WithDebug>
+        </div>
+      </Box>
+    </Box.WithDebug>
+  </Component>
+</App>
+`;
+
+exports[`Debug options Setting scope options without context options. 1`] = `
+<App>
+  <Component>
+    <Box.WithDebug
+      id="a"
+    >
+      <Box
+        id="a"
+      >
+        <div
+          className="  "
+          id="a"
+        >
+          <DebugProviderClass
+            debug={
+              Object {
+                "box": Object {
+                  "color": "red",
+                },
+              }
+            }
+          >
+            <Box.WithDebug
+              id="b"
+            >
+              <Box
+                debug={
+                  Object {
+                    "color": "red",
+                  }
+                }
+                id="b"
+              >
+                <div
+                  className="debug red "
+                  id="b"
+                >
+                  <Box.WithDebug
+                    id="c"
+                  >
+                    <Box
+                      debug={
+                        Object {
+                          "color": "red",
+                        }
+                      }
+                      id="c"
+                    >
+                      <div
+                        className="debug red "
+                        id="c"
+                      />
+                    </Box>
+                  </Box.WithDebug>
+                </div>
+              </Box>
+            </Box.WithDebug>
+          </DebugProviderClass>
+        </div>
+      </Box>
+    </Box.WithDebug>
+  </Component>
+</App>
+`;
+
+exports[`Debug options Setting scope without context options. 1`] = `
+<App>
+  <Component>
+    <Box.WithDebug
+      id="a"
+    >
+      <Box
+        id="a"
+      >
+        <div
+          className="  "
+          id="a"
+        >
+          <DebugProviderClass
+            debug={true}
+          >
+            <Box.WithDebug
+              id="b"
+            >
+              <Box
+                debug={true}
+                id="b"
+              >
+                <div
+                  className="debug  "
+                  id="b"
+                >
+                  <Box.WithDebug
+                    id="c"
+                  >
+                    <Box
+                      debug={true}
+                      id="c"
+                    >
+                      <div
+                        className="debug  "
+                        id="c"
+                      />
+                    </Box>
+                  </Box.WithDebug>
+                </div>
+              </Box>
+            </Box.WithDebug>
+          </DebugProviderClass>
         </div>
       </Box>
     </Box.WithDebug>
@@ -695,12 +1205,13 @@ exports[`Debug options Shallow copy component option over context option 1`] = `
         debug={
           Object {
             "color": "red",
+            "style": undefined,
           }
         }
         id="a"
       >
         <div
-          className="debug red"
+          className="debug red "
           id="a"
         >
           <Box.WithDebug
@@ -715,12 +1226,13 @@ exports[`Debug options Shallow copy component option over context option 1`] = `
               debug={
                 Object {
                   "color": "green",
+                  "style": undefined,
                 }
               }
               id="b"
             >
               <div
-                className="debug green"
+                className="debug green "
                 id="b"
               >
                 <Box.WithDebug
@@ -730,12 +1242,13 @@ exports[`Debug options Shallow copy component option over context option 1`] = `
                     debug={
                       Object {
                         "color": "red",
+                        "style": undefined,
                       }
                     }
                     id="c"
                   >
                     <div
-                      className="debug red"
+                      className="debug red "
                       id="c"
                     />
                   </Box>
@@ -760,32 +1273,35 @@ exports[`Debug options Shallow copy descendant option over context options 1`] =
         debug={
           Object {
             "color": "red",
+            "style": undefined,
           }
         }
         id="a"
       >
         <div
-          className="debug red"
+          className="debug red "
           id="a"
         >
           <Box.WithDebug
-            debugDescendants={
+            debug={
               Object {
                 "color": "green",
               }
             }
+            debugScope={true}
             id="b"
           >
             <Box
               debug={
                 Object {
-                  "color": "red",
+                  "color": "green",
+                  "style": undefined,
                 }
               }
               id="b"
             >
               <div
-                className="debug red"
+                className="debug green "
                 id="b"
               >
                 <Box.WithDebug
@@ -795,12 +1311,13 @@ exports[`Debug options Shallow copy descendant option over context options 1`] =
                     debug={
                       Object {
                         "color": "green",
+                        "style": undefined,
                       }
                     }
                     id="c"
                   >
                     <div
-                      className="debug green"
+                      className="debug green "
                       id="c"
                     />
                   </Box>
