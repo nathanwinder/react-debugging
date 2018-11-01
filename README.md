@@ -19,4 +19,4 @@ yarn add github:nathanwinder/react-debugging --exact
 
 ## Features
 
-Use our [Storybook](https://nwinder.gitbook.io/react-debugging/storybook) to review the features.
+Use our [Storybook](https://nathanwinder.github.io/react-debugging/storybook) to review the features.
